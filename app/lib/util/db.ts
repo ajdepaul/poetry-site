@@ -1,8 +1,11 @@
 
-export interface FetchResult<C> {
-  content?: C,
-  errorMsg?: 'Database error' | 'Not found',
-}
+export type FetchResult<C> = {
+  type: 'success';
+  content: C;
+} | {
+  type: 'error';
+  message: string;
+};
 
 export interface FormResult<E> {
   errors?: E

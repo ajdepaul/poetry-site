@@ -1,4 +1,3 @@
-
 // January 1, 2024
 const prettyDateFormatOptions: Intl.DateTimeFormatOptions = {
   year: 'numeric',
@@ -14,7 +13,7 @@ export function prettyDateFormat(date: Date) {
 }
 
 // 1/1/24
-export function shortDateFormat(date:Date) {
+export function shortDateFormat(date: Date) {
   const shortYear = date.getUTCFullYear() % 1000
   return `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${shortYear}`
 }

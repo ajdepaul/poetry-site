@@ -1,6 +1,6 @@
-import { HTMLAttributes, FC, forwardRef } from 'react'
-import { VariantProps, cva } from 'class-variance-authority'
-import { twMerge } from 'tailwind-merge'
+import { VariantProps, cva } from 'class-variance-authority';
+import { FC, HTMLAttributes, forwardRef } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 const sheetVariants = cva(
   'sm:p-6 p-4 w-full shadow-xl rounded-lg bg-theme-white grow',
@@ -14,9 +14,10 @@ const sheetVariants = cva(
       variant: 'default',
     }
   }
-)
+);
 
-interface SheetProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof sheetVariants> { }
+interface SheetProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof sheetVariants> {
+};
 
 const Sheet: FC<SheetProps> = forwardRef<HTMLDivElement, SheetProps>(({ className, variant, children, ...props }, ref) => {
   return (
@@ -25,11 +26,12 @@ const Sheet: FC<SheetProps> = forwardRef<HTMLDivElement, SheetProps>(({ classNam
       className={twMerge(sheetVariants({ variant, className }))}
       {...props}
     >
-      <div className='bg-grid size-full'>
+      <div className="bg-grid size-full">
         {children}
       </div>
     </div>
   )
-})
+});
 
-export { Sheet, sheetVariants }
+export { Sheet, sheetVariants };
+

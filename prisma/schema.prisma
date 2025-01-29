@@ -14,11 +14,18 @@ datasource db {
 }
 
 model poem {
-  id         String    @id @default(cuid())
-  title      String    @unique
-  content    String
-  date       DateTime  @default(now())
-  published  Boolean
-  precedence Int       @default(0)
-  deleted_on DateTime?
+  id               String           @id
+  title            String           @unique
+  content          String
+  justifyDirection JustifyDirection @default(CENTER)
+  date             DateTime         @default(now())
+  published        Boolean
+  precedence       Int              @default(0)
+  deleted_on       DateTime?
+}
+
+enum JustifyDirection {
+  START
+  CENTER
+  END
 }
