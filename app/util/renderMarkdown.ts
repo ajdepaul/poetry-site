@@ -8,6 +8,9 @@ const purify = DOMPurify(window);
 const renderer: RendererObject = {
   link: (href, title, text) => {
     return `<a href=${href} class="underline"${title ? ` title="${title}"` : ''}>${text}</a>`;
+  },
+  listitem: (text, task, checked) => {
+    return `<li>- ${text}</li>`;
   }
 };
 

@@ -1,7 +1,7 @@
-'use server';
+import 'server-only';
 
+import { FetchResult } from '@/app/lib/fetch/fetchTypes';
 import { prisma } from '@/app/lib/prisma';
-import { FetchResult } from '@/app/lib/util/db';
 
 type PoemPageData = {
   allPoems: {
@@ -20,9 +20,7 @@ type PoemPageData = {
 };
 
 export async function fetchPoemPageData(id: string): Promise<FetchResult<PoemPageData>> {
-
   try {
-
     const allPoemsQuery = prisma.poem.findMany({
       select: {
         id: true,
@@ -55,7 +53,7 @@ export async function fetchPoemPageData(id: string): Promise<FetchResult<PoemPag
 
     return {
       type: 'success',
-      content: {
+      result: {
         allPoems: allPoems.map(poem => (
           {
             id: poem.id,
@@ -101,7 +99,7 @@ export async function fetchLatestPoem(): Promise<FetchResult<string>> {
       return { type: 'error', message: 'Not found' };
     }
 
-    return { type: 'success', content: allPoemsQuery.id };
+    return { type: 'success', result: allPoemsQuery.id };
 
   } catch (error) {
     console.error('Database error:', error);

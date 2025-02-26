@@ -5,14 +5,12 @@ import { architectsDaughter } from "@/app/components/fonts";
 import { Input, inputLabelVariants, inputVariants } from "@/app/components/input";
 import { P } from "@/app/components/paragraph";
 import { ActionResult } from "@/app/lib/actions/actionTypes";
-import { editPoem } from "@/app/lib/actions/adminActions";
+import { newPoem } from "@/app/lib/actions/adminActions";
 import { formatDateToYYYYMMDD } from "@/app/util/format";
 import formDataToJson from "@/app/util/formDataToJson";
 import { PoemData, PoemDataSchema } from "@/app/util/poemData";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useActionState } from "react";
-import { IoEye, IoEyeOff } from "react-icons/io5";
 import { twMerge } from "tailwind-merge";
 
 type EditFormActionResult = ActionResult<string> | {
@@ -20,15 +18,23 @@ type EditFormActionResult = ActionResult<string> | {
   message: string[];
 };
 
-export default function EditForm({ id, poemData }: { id: string, poemData: PoemData }) {
-  const { title, content, justifyDirection, date, published, precedence, deletedOn } = poemData;
+export default function NewForm() {
   const router = useRouter();
+
+  const currentDate = new Date();
+  const { title, content, justifyDirection, date, precedence }: PoemData = {
+    title: 'Untitled Poem',
+    content: '',
+    justifyDirection: 'CENTER',
+    // convert current date to as if this was UTC
+    date: new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate())),
+    published: false,
+    precedence: 0
+  };
 
   const [formState, formAction, formPending] = useActionState<EditFormActionResult | null, FormData>(
     async (_, formData) => {
-      formData.append('published', String(published));
-
-      if (deletedOn) { formData.append('deletedOn', String(deletedOn)); }
+      formData.append('published', 'false');
 
       const formValidation = PoemDataSchema.safeParse(formDataToJson(formData));
       if (formValidation.error) {
@@ -39,7 +45,7 @@ export default function EditForm({ id, poemData }: { id: string, poemData: PoemD
       }
       const poemData = formValidation.data;
 
-      const result = await editPoem({ id, poemData });
+      const result = await newPoem(poemData);
       if (result.type === 'success') { router.push('/admin') };
       return { type: 'success', result: '' };
     },
@@ -86,18 +92,6 @@ export default function EditForm({ id, poemData }: { id: string, poemData: PoemD
         </select>
       </label>
 
-      <P className="text-left pb-0 italic flex items-center">
-        This poem is currently&nbsp;
-        <Link
-          href={`/admin/publish/${id}?redirect=${encodeURI(`/edit/${id}`)}`}
-          className={published ? 'text-theme-dark-green hover:text-theme-green' : 'text-theme-dark-brown hover:text-theme-brown'}
-        >
-          <span className="underline">{published ? 'published' : 'not published'}</span>
-          &nbsp;
-          {published ? (<IoEye className="inline size-5" />) : (<IoEyeOff className="inline size-5" />)}
-        </Link>
-      </P>
-
       <Input
         labelName="Content"
         name="content"
@@ -123,7 +117,7 @@ export default function EditForm({ id, poemData }: { id: string, poemData: PoemD
           bgColor="dark-green"
           className={`${architectsDaughter.className} w-32 text-lg text-graphite`}
         >
-          Update
+          Create
         </Button>
       </div>
 

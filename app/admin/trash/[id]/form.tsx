@@ -1,53 +1,53 @@
-'use client'
+'use client';
 
-import { Button, buttonVariants } from "@/app/components/ui/button"
-import { architectsDaughter } from "@/app/components/ui/fonts"
-import { P } from "@/app/components/ui/paragraph"
-import { trashPoem } from "@/app/lib/db/adminActions"
-import { useRouter } from "next/navigation"
-import { useFormState, useFormStatus } from "react-dom"
-import { twMerge } from "tailwind-merge"
+import { Button } from '@/app/components/button';
+import { architectsDaughter } from '@/app/components/fonts';
+import { P } from '@/app/components/paragraph';
+import { ActionResult } from '@/app/lib/actions/actionTypes';
+import { trashPoem } from '@/app/lib/actions/adminActions';
+import { useRouter } from 'next/navigation';
+import { useActionState } from 'react';
 
-export default function TrashForm(props: { id: string }) {
-  const [formState, formDispatch] = useFormState(trashPoem, {})
+export default function TrashForm({ id }: { id: string }) {
+  const router = useRouter();
+  
+  const [formState, formAction, formPending] = useActionState<ActionResult<string> | null>(
+    async () => {
+      const result = await trashPoem(id);
+      if (result.type === 'success') { router.push('/admin'); }
+      return result;
+    },
+    null
+  );
+
+  const message = formState && (formState.type === 'error' ? formState.message : formState.result);
+
   return (
-    <form action={formDispatch}>
-      <input type="hidden" name="id" value={props.id}></input>
+    <form inert={formPending} action={formAction}>
       <div className="w-full flex justify-evenly pb-12">
-        <BackButton />
-        <ConfirmButton />
+        <Button
+          type="button"
+          onClick={(e) => { router.push('/admin') }}
+          bgColor="dark-brown"
+          className={`${architectsDaughter.className} w-32 text-lg text-graphite`}
+        >
+          Back
+        </Button>
+        <Button
+          type="submit"
+          bgColor="red"
+          className={`${architectsDaughter.className} w-32 text-lg text-graphite`}
+        >
+          Trash
+        </Button>
       </div>
-      {formState.message && (<P className="text-theme-red">[ {formState.message} ]</P>)}
+      {
+        message && (
+          <P className={formState.type === 'error' ? 'text-theme-red' : 'text-theme-dark-green'}>
+            {message}
+          </P>
+        )
+      }
     </form>
-  )
-}
-
-function BackButton() {
-  const { pending } = useFormStatus()
-  const router = useRouter()
-
-  return (
-    <Button
-      aria-disabled={pending} disabled={pending}
-      type='button'
-      onClick={(e) => { router.push('/admin') }}
-      className={twMerge(buttonVariants(), `${architectsDaughter.className} w-32 bg-theme-dark-brown border-theme-dark-brown text-lg text-graphite hover:bg-theme-brown hover:border-theme-brown
-      ${pending && 'opacity-75 cursor-progress'}`)}
-    >
-      Back
-    </Button>
-  )
-}
-
-function ConfirmButton() {
-  const { pending } = useFormStatus()
-  return (
-    <Button
-      aria-disabled={pending} disabled={pending}
-      className={`${architectsDaughter.className} w-32 bg-theme-red border-theme-red text-lg text-graphite hover:bg-theme-light-red hover:border-theme-light-red
-      ${pending && 'opacity-75 cursor-progress'}`}
-    >
-      Trash
-    </Button>
-  )
+  );
 }

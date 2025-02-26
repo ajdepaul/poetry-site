@@ -19,6 +19,8 @@ const config: Config = {
         'graphite': '#41424C',
         'theme-red': '#dd3333',
         'theme-light-red': '#fc8888',
+        'theme-dark-blue': '#6294ea',
+        'theme-blue': '#94b6ef'
       },
       backgroundImage: {
         'grid': "url('/img/grid-bg.png')",

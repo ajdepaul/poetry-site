@@ -1,20 +1,25 @@
 'use client';
 
-import { Button } from "@/app/components/button";
-import { architectsDaughter } from "@/app/components/fonts";
-import { P } from "@/app/components/paragraph";
-import { ActionResult } from "@/app/lib/actions/actionTypes";
-import { deletePoem } from "@/app/lib/actions/adminActions";
-import { useRouter } from "next/navigation";
-import { useActionState } from "react";
+import { Button } from '@/app/components/button';
+import { architectsDaughter } from '@/app/components/fonts';
+import { P } from '@/app/components/paragraph';
+import { ActionResult } from '@/app/lib/actions/actionTypes';
+import { publishPoem } from '@/app/lib/actions/adminActions';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useActionState } from 'react';
 
-export default function DeleteForm({ id }: { id: string }) {
+export default function PublishForm({ id, action }: { id: string, action: 'publish' | 'unpublish' }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const redirectHref = searchParams.has('redirect')
+    ? `/admin${decodeURI(searchParams.get('redirect')!)}`
+    : '/admin';
 
   const [formState, formAction, formPending] = useActionState<ActionResult<string> | null>(
     async () => {
-      const result = await deletePoem(id);
-      if (result.type === 'success') { router.push('/admin/trash'); }
+      const result = await publishPoem({ id, action });
+      if (result.type === 'success') { router.push(redirectHref); }
       return result;
     },
     null
@@ -27,7 +32,7 @@ export default function DeleteForm({ id }: { id: string }) {
       <div className="w-full flex justify-evenly pb-12">
         <Button
           type="button"
-          onClick={(e) => { router.push('/admin') }}
+          onClick={(e) => { router.push(redirectHref); }}
           bgColor="dark-brown"
           className={`${architectsDaughter.className} w-32 text-lg text-graphite`}
         >
@@ -35,10 +40,10 @@ export default function DeleteForm({ id }: { id: string }) {
         </Button>
         <Button
           type="submit"
-          bgColor="red"
+          bgColor={action === 'publish' ? 'dark-green' : 'red'}
           className={`${architectsDaughter.className} w-32 text-lg text-graphite`}
         >
-          Delete
+          {action === 'publish' ? 'Publish' : 'Unpublish'}
         </Button>
       </div>
       {

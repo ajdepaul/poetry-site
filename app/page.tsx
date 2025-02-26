@@ -1,7 +1,10 @@
-import { fetchLatestPoem } from '@/app/lib/db/publicFetch'
-import { redirect } from 'next/navigation'
+import 'server-only';
+
+import { fetchLatestPoem } from '@/app/lib/fetch/publicFetch';
+import { notFound, redirect } from 'next/navigation';
 
 export default async function HomePage() {
-  const { content, errorMsg } = await fetchLatestPoem()
-  redirect(`/p/${encodeURIComponent(content!)}`)
+  const result = await fetchLatestPoem();
+  if (result.type === 'error') { notFound(); }
+  redirect(`/p/${encodeURIComponent(result.result)}`);
 }

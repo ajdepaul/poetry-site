@@ -1,6 +1,6 @@
-import { HTMLAttributes, FC, forwardRef } from 'react'
-import { VariantProps, cva } from 'class-variance-authority'
-import { twMerge } from 'tailwind-merge'
+import { VariantProps, cva } from 'class-variance-authority';
+import { FC, HTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 const dividerVariants = cva(
   'h-0',
@@ -43,14 +43,13 @@ const dividerVariants = cva(
 
 interface DividerProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof dividerVariants> { }
 
-const Divider: FC<DividerProps> = forwardRef<HTMLDivElement, DividerProps>(({ className, variant, width, thickness, lineColor, ...props }, ref) => {
-  return (
-    <div
-      ref={ref}
-      className={twMerge(dividerVariants({ variant, width, thickness, lineColor, className }))}
-      {...props}
-    />
-  )
-})
+const Divider: FC<DividerProps> = ({ className, variant, width, thickness, lineColor, ...props }) => (
+  <div
+    className={twMerge(dividerVariants({ variant, width, thickness, lineColor, className }))}
+    {...props}
+  />
+);
 
-export { Divider, dividerVariants }
+
+export { Divider, dividerVariants };
+

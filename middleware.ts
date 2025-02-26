@@ -17,20 +17,4 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/api/auth/logout', request.url))
     }
   }
-
-  if (request.nextUrl.pathname.startsWith('/api/admin')) {
-    const { isAuthenticated, getAccessToken } = getKindeServerSession();
-
-    // deny not logged in users
-    if (!await isAuthenticated()) {
-      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 }); // unauthorized
-    }
-
-    // deny non admins
-    const accessToken = await getAccessToken();
-    const isAdmin = accessToken?.permissions.includes('admin_permission');
-    if (!isAdmin) {
-      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 }); // unauthorized
-    }
-  }
 }

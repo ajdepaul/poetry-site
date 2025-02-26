@@ -1,8 +1,7 @@
 'use server';
 
-import { H } from '@/app/components/ui/header';
-import { Nav } from '@/app/components/ui/nav';
-import { Sheet } from '@/app/components/ui/sheet';
+import { H } from '@/app/components/header';
+import { Sheet } from '@/app/components/sheet';
 import { readFile } from 'fs/promises';
 import Link from 'next/link';
 import path from 'path';
@@ -16,7 +15,6 @@ export default async function PoemPage() {
 
   return (
     <>
-      <Nav />
       <H level="1" size="6xl" className="py-16 text-center">Legal</H>
 
       <Sheet className="leading-poem">
