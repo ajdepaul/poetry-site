@@ -3,10 +3,10 @@
 import 'server-only';
 
 import { Action } from '@/app/lib/actions/actionTypes';
-import { PoemData } from '@/app/lib/fetch/adminFetch';
 import { prisma } from '@/app/lib/prisma';
 import isAdmin from '@/app/util/isAdmin';
 import { nanoid } from '@/app/util/nanoid';
+import { PoemData } from '@/app/util/poemData';
 
 type AdminActionType = <A, R>(action: Action<A, R>) => Action<A, R>;
 

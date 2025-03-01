@@ -1,6 +1,6 @@
 
 function formDataToJson(formData: FormData) {
-  return formData.entries().reduce(
+  return Array.from(formData.entries()).reduce(
     (accumulator, [key, value]) => {
       accumulator[key] = value;
       return accumulator;

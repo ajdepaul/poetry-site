@@ -111,5 +111,3 @@ export async function fetchTrashPoems(page: number, pageSize: number): Promise<F
     return { type: 'error', message: 'Database error' };
   }
 }
-export { PoemData };
-
