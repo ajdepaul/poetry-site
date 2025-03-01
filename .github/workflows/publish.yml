@@ -41,22 +41,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-  dependency-submission:
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
-
-    steps:
-      - name: Checkout main
-        uses: actions/checkout@v4
-
-      - name: Setup JDK 18
-        uses: actions/setup-java@v4
-        with:
-          java-version: '18'
-          distribution: 'corretto'
-
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@v4
