@@ -14,5 +14,7 @@ export const GET = (req: any, res: any) => {
   ) {
     kindeAuthHandler = handleAuth();
     return kindeAuthHandler(req, res);
+  } else {
+    throw Error("Kinde environment variables are not defined");
   }
 };
