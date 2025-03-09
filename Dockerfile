@@ -10,7 +10,6 @@ RUN npm install
 # build
 RUN npx oss-attribution-generator generate-attribution
 RUN npx prisma generate
-RUN npx prisma migrate deploy
 RUN npm run build
 
 # run
