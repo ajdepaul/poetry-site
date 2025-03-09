@@ -6,10 +6,12 @@ RUN apk add --no-cache libc6-compat
 RUN apk add --no-cache openssl
 
 WORKDIR /app
-COPY . .
+
+COPY package*.json ./
 RUN npm install
 
 # build
+COPY . .
 RUN npx oss-attribution-generator generate-attribution
 RUN npx prisma generate
 RUN npm run build
