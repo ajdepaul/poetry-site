@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@kinde-oss/kinde-auth-nextjs": "^2.4.6",
-    "@prisma/client": "^5.13.0",
+    "@prisma/client": "^6.4.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dompurify": "^3.2.3",
