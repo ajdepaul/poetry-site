@@ -1,4 +1,7 @@
+import 'server-only';
+
 import buttonVariants from '@/app/components/cva/buttonVariants';
+import { signOut } from '@/auth';
 import { VariantProps, cva } from 'class-variance-authority';
 import Link from 'next/link';
 import { FC, HTMLAttributes } from 'react';
@@ -29,9 +32,15 @@ const Nav: FC<navProps> = ({ showAdminButton, className, ...props }) => (
           <Link href="/admin" className={twMerge(buttonVariants({ bgColor: 'dark-brown' }), 'rounded-full')}>
             <FaPencilAlt className="size-5 text-white" />
           </Link>
-          <Link href="/api/auth/logout" className={twMerge(buttonVariants({ bgColor: 'dark-brown' }), 'rounded-full')}>
+          <button
+            onClick={async () => {
+              'use server';
+              await signOut({ redirect: true, redirectTo: '/' });
+            }}
+            className={twMerge(buttonVariants({ bgColor: 'dark-brown' }), 'inline rounded-full')}
+          >
             <IoLogOut className="size-5 text-white" />
-          </Link>
+          </button>
         </>
       )
     }

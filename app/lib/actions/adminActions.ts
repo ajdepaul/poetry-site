@@ -4,14 +4,14 @@ import 'server-only';
 
 import { Action } from '@/app/lib/actions/actionTypes';
 import { prisma } from '@/app/lib/prisma';
-import isAdmin from '@/app/util/isAdmin';
+import checkIsAdmin from '@/app/util/checkIsAdmin';
 import { nanoid } from '@/app/util/nanoid';
 import { PoemData } from '@/app/util/poemData';
 
 type AdminActionType = <A, R>(action: Action<A, R>) => Action<A, R>;
 
 const adminAction: AdminActionType = <A, R>(action: Action<A, R>) => async (args: A) => {
-  if (!isAdmin()) { return { type: 'error', message: 'Unauthorized' }; }
+  if (!checkIsAdmin()) { return { type: 'error', message: 'Unauthorized' }; }
   return action(args);
 };
 

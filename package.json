@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@kinde-oss/kinde-auth-nextjs": "^2.4.6",
     "@prisma/client": "^6.4.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -17,6 +16,7 @@
     "jsdom": "^26.0.0",
     "marked": "^12.0.2",
     "next": "^15.1.6",
+    "next-auth": "^5.0.0-beta.25",
     "prisma": "^6.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
