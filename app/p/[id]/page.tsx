@@ -29,7 +29,7 @@ export default async function PoemPage({ params }: { params: Promise<{ id: strin
     <>
       <H level="1" size="6xl" className="pt-16 text-center">Poetry Site</H>
       <Divider className="mt-8 mb-6" />
-      <H level="2" size="3xl" className="pb-16 text-center">Demo Site</H>
+      <H level="2" size="3xl" className="pb-16 text-center">Tales of a Loser</H>
 
       <Pagination
         prevHref={poemIndex > 0 ? decodeURIComponent(allPoems[poemIndex - 1].id) : undefined}

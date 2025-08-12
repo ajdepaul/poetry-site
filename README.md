@@ -2,9 +2,8 @@
 
 ![Preview Image](/readme/admin-page.png)
 
-(not yet live)  
-[poetrysite.com](https://example.com)  
-[Write Up](https://example.com)
+[Demo](https://poetry-site.adepaul.dev)  
+[Write-Up](https://adepaul.dev/projects/poetry-site)
 
 A simple website to publish a list of poems sorted first by date and then by an assigned precedence value. Admin
 authentication is provided through [Auth.js](https://authjs.dev/) and [Kinde](https://kinde.com/). Admins can create,
